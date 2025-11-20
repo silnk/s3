@@ -1,1 +1,86 @@
-.
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        #chat { border: 1px solid #ccc; height: 400px; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
+        #messageInput { width: 80%; padding: 10px; }
+        button { padding: 10px 20px; }
+        .message { margin: 5px 0; padding: 8px; background: #f0f0f0; border-radius: 5px; }
+        .system { background: #ffe6e6; font-style: italic; }
+        .user-joined { background: #e6ffe6; }
+        .user-left { background: #ffe6e6; }
+    </style>
+</head>
+<body>
+    <h1>Group Chat</h1>
+    <div id="chat"></div>
+    <input type="text" id="messageInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="changeUsername()">Change Username</button>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:3000');
+        const chat = document.getElementById('chat');
+        const messageInput = document.getElementById('messageInput');
+
+        ws.onopen = () => {
+            addMessage('System', 'Connected to chat', 'system');
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            
+            switch(data.type) {
+                case 'message':
+                    addMessage(data.user, data.message);
+                    break;
+                case 'system':
+                    addMessage('System', data.message, 'system');
+                    break;
+                case 'user_joined':
+                    addMessage('System', data.message, 'user-joined');
+                    break;
+                case 'user_left':
+                    addMessage('System', data.message, 'user-left');
+                    break;
+            }
+        };
+
+        ws.onclose = () => {
+            addMessage('System', 'Disconnected from chat', 'system');
+        };
+
+        function addMessage(user, message, type = '') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = `<strong>${user}:</strong> ${message}`;
+            chat.appendChild(messageDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ message: message }));
+                messageInput.value = '';
+            }
+        }
+
+        function changeUsername() {
+            const newName = prompt('Enter new username:');
+            if (newName) {
+                // In a real app, you'd send this to server to update
+                alert('Username change would be implemented with server update');
+            }
+        }
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
