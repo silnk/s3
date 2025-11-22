@@ -3,116 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Information Collector</title>
+    <title>Personal Information Collector</title>
     <style>
-        body { font-family: Arial; max-width: 800px; margin: 20px auto; padding: 20px; }
-        .person-form { border: 1px solid #ccc; padding: 20px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; }
-        button { background: #4CAF50; color: white; padding: 10px 20px; border: none; margin: 5px; cursor: pointer; }
-        #result { display: none; margin-top: 20px; padding: 20px; border: 2px solid #333; background: #f9f9f9; }
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .person-form {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        /* Print section - hidden by default */
+        #print-section {
+            display: none;
+        }
+        
+        /* Print styles - ONLY show print section when printing */
+        @media print {
+            /* Hide everything except print section */
+            body * {
+                display: none !important;
+            }
+            
+            /* Only show print section and its children */
+            #print-section, #print-section * {
+                display: block !important;
+                visibility: visible !important;
+            }
+            
+            /* Position the print section properly */
+            #print-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 20px;
+                background: white;
+            }
+            
+            /* Improve print layout */
+            .person-print {
+                margin-bottom: 30px;
+                page-break-inside: avoid;
+            }
+            
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            
+            td {
+                padding: 8px;
+                border: 1px solid #000;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Personal Information Collection</h1>
-    <div id="forms-container"></div>
-    
-    <button onclick="addPerson()">Add Person</button>
-    <button onclick="showResult()" style="background: #2196F3;">Show Data for Printing</button>
-    <button onclick="clearAll()" style="background: #ff9800;">Clear All</button>
-    
-    <div id="result"></div>
+    <div class="no-print">
+        <h1>Personal Information Collection</h1>
+        
+        <div id="forms-container">
+            <div class="person-form" id="person-1">
+                <h3>Person 1</h3>
+                <div class="form-group">
+                    <label for="nationality-1">Nationality:</label>
+                    <input type="text" id="nationality-1" name="nationality-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastname-1">Last Name:</label>
+                    <input type="text" id="lastname-1" name="lastname-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstname-1">First Name:</label>
+                    <input type="text" id="firstname-1" name="firstname-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob-1">Date of Birth:</label>
+                    <input type="date" id="dob-1" name="dob-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pob-1">Place of Birth:</label>
+                    <input type="text" id="pob-1" name="pob-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="religion-1">Religion:</label>
+                    <select id="religion-1" name="religion-1" required>
+                        <option value="">Select</option>
+                        <option value="muslim">Muslim</option>
+                        <option value="non-muslim">Non Muslim</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sex-1">Sex:</label>
+                    <select id="sex-1" name="sex-1" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="relation-1">Relation:</label>
+                    <input type="text" id="relation-1" name="relation-1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="passport-1">Passport No:</label>
+                    <input type="text" id="passport-1" name="passport-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="issue-date-1">Issue Date:</label>
+                    <input type="date" id="issue-date-1" name="issue-date-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expiry-date-1">Expiry Date:</label>
+                    <input type="date" id="expiry-date-1" name="expiry-date-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="place-issue-1">Place of Issue:</label>
+                    <input type="text" id="place-issue-1" name="place-issue-1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="visa-place-1">Visa Stamping Place:</label>
+                    <input type="text" id="visa-place-1" name="visa-place-1" required>
+                </div>
+            </div>
+        </div>
+        
+        <div class="no-print">
+            <button onclick="addPerson()">Add Another Person</button>
+            <button onclick="generatePrintView()" style="background-color: #2196F3;">Print/Generate PDF</button>
+            <button onclick="clearAll()" style="background-color: #ff9800;">Clear All</button>
+        </div>
+    </div>
+
+    <!-- This section will ONLY appear when printing -->
+    <div id="print-section"></div>
 
     <script>
-        let personCount = 0;
+        let personCount = 1;
         
         function addPerson() {
             personCount++;
             const formsContainer = document.getElementById('forms-container');
             const newForm = document.createElement('div');
             newForm.className = 'person-form';
+            newForm.id = `person-${personCount}`;
             newForm.innerHTML = `
                 <h3>Person ${personCount}</h3>
-                <button onclick="this.parentElement.remove(); updateNumbers();" style="background: #f44336;">Remove</button>
-                ${getFormFields()}
+                <button type="button" onclick="removePerson(${personCount})" style="background-color: #f44336; margin-bottom: 15px;">Remove This Person</button>
+                
+                <div class="form-group">
+                    <label for="nationality-${personCount}">Nationality:</label>
+                    <input type="text" id="nationality-${personCount}" name="nationality-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastname-${personCount}">Last Name:</label>
+                    <input type="text" id="lastname-${personCount}" name="lastname-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstname-${personCount}">First Name:</label>
+                    <input type="text" id="firstname-${personCount}" name="firstname-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob-${personCount}">Date of Birth:</label>
+                    <input type="date" id="dob-${personCount}" name="dob-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pob-${personCount}">Place of Birth:</label>
+                    <input type="text" id="pob-${personCount}" name="pob-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="religion-${personCount}">Religion:</label>
+                    <select id="religion-${personCount}" name="religion-${personCount}" required>
+                        <option value="">Select</option>
+                        <option value="muslim">Muslim</option>
+                        <option value="non-muslim">Non Muslim</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sex-${personCount}">Sex:</label>
+                    <select id="sex-${personCount}" name="sex-${personCount}" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="relation-${personCount}">Relation:</label>
+                    <input type="text" id="relation-${personCount}" name="relation-${personCount}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="passport-${personCount}">Passport No:</label>
+                    <input type="text" id="passport-${personCount}" name="passport-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="issue-date-${personCount}">Issue Date:</label>
+                    <input type="date" id="issue-date-${personCount}" name="issue-date-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expiry-date-${personCount}">Expiry Date:</label>
+                    <input type="date" id="expiry-date-${personCount}" name="expiry-date-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="place-issue-${personCount}">Place of Issue:</label>
+                    <input type="text" id="place-issue-${personCount}" name="place-issue-${personCount}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="visa-place-${personCount}">Visa Stamping Place:</label>
+                    <input type="text" id="visa-place-${personCount}" name="visa-place-${personCount}" required>
+                </div>
             `;
             formsContainer.appendChild(newForm);
         }
         
-        function getFormFields() {
-            return `
-                <div class="form-group"><label>Nationality:</label><input type="text" required></div>
-                <div class="form-group"><label>Last Name:</label><input type="text" required></div>
-                <div class="form-group"><label>First Name:</label><input type="text" required></div>
-                <div class="form-group"><label>Date of Birth:</label><input type="date" required></div>
-                <div class="form-group"><label>Place of Birth:</label><input type="text" required></div>
-                <div class="form-group"><label>Religion:</label>
-                    <select required><option value="">Select</option><option>Muslim</option><option>Non Muslim</option></select>
-                </div>
-                <div class="form-group"><label>Sex:</label>
-                    <select required><option value="">Select</option><option>Male</option><option>Female</option></select>
-                </div>
-                <div class="form-group"><label>Relation:</label><input type="text"></div>
-                <div class="form-group"><label>Passport No:</label><input type="text" required></div>
-                <div class="form-group"><label>Issue Date:</label><input type="date" required></div>
-                <div class="form-group"><label>Expiry Date:</label><input type="date" required></div>
-                <div class="form-group"><label>Place of Issue:</label><input type="text" required></div>
-                <div class="form-group"><label>Visa Stamping Place:</label><input type="text" required></div>
-            `;
-        }
-        
-        function showResult() {
-            const forms = document.querySelectorAll('.person-form');
-            let resultHTML = '<h2>Personal Information Summary</h2>';
-            
-            forms.forEach((form, index) => {
-                const inputs = form.querySelectorAll('input, select');
-                resultHTML += `
-                    <div style="border: 1px solid #000; padding: 15px; margin: 10px 0;">
-                        <h3>Person ${index + 1}</h3>
-                        <p><strong>Nationality:</strong> ${inputs[0].value || 'N/A'}</p>
-                        <p><strong>Last Name:</strong> ${inputs[1].value || 'N/A'}</p>
-                        <p><strong>First Name:</strong> ${inputs[2].value || 'N/A'}</p>
-                        <p><strong>Date of Birth:</strong> ${inputs[3].value || 'N/A'}</p>
-                        <p><strong>Place of Birth:</strong> ${inputs[4].value || 'N/A'}</p>
-                        <p><strong>Religion:</strong> ${inputs[5].value || 'N/A'}</p>
-                        <p><strong>Sex:</strong> ${inputs[6].value || 'N/A'}</p>
-                        <p><strong>Relation:</strong> ${inputs[7].value || 'N/A'}</p>
-                        <p><strong>Passport No:</strong> ${inputs[8].value || 'N/A'}</p>
-                        <p><strong>Issue Date:</strong> ${inputs[9].value || 'N/A'}</p>
-                        <p><strong>Expiry Date:</strong> ${inputs[10].value || 'N/A'}</p>
-                        <p><strong>Place of Issue:</strong> ${inputs[11].value || 'N/A'}</p>
-                        <p><strong>Visa Stamping Place:</strong> ${inputs[12].value || 'N/A'}</p>
-                    </div>
-                `;
-            });
-            
-            document.getElementById('result').innerHTML = resultHTML;
-            document.getElementById('result').style.display = 'block';
-            
-            // Now you can use browser's normal print (Ctrl+P) to print the result
-            alert("Data is now displayed below. Use Ctrl+P to print this page.");
-        }
-        
-        function updateNumbers() {
-            const forms = document.querySelectorAll('.person-form');
-            forms.forEach((form, index) => {
-                form.querySelector('h3').textContent = `Person ${index + 1}`;
-            });
-            personCount = forms.length;
-        }
-        
-        function clearAll() {
-            if (confirm("Clear all information?")) {
-                document.getElementById('forms-container').innerHTML = '';
-                document.getElementById('result').style.display = 'none';
-                personCount = 0;
+        function removePerson(personId) {
+            if (personCount > 1) {
+                const formToRemove = document.getElementById(`person-${personId}`);
+                formToRemove.remove();
+                personCount--;
+                
+                // Update the numbers for remaining forms
+                const forms = document.querySelectorAll('.person-form');
+                forms.forEach((form, index) => {
+                    const header = form.querySelector('h3');
+                    header.textContent = `Person ${index + 1}`;
+                    form.id = `person-${index + 1}`;
+                });
+            } else {
+                alert("You cannot remove the first person. Use 'Clear All' to reset.");
             }
         }
         
-        // Add first person on load
-        addPerson();
+        function generatePrintView() {
+            const printSection = document.getElementById('print-section');
+            let printContent = '<h1 style="text-align: center; margin-bottom: 30px;">Personal Information Summary</h1>';
+            
+            // Get current date for the report
+            const currentDate = new Date().toLocaleDateString();
+            printContent += `<p style="text-align: right; margin-bottom: 20px;"><strong>Generated on:</strong> ${currentDate}</p>`;
+            
+            for (let i = 1; i <= personCount; i++) {
+                if (!document.getElementById(`person-${i}`)) continue;
+                
+                // Get all values safely
+                const nationality = document.getElementById(`nationality-${i}`)?.value || 'Not provided';
+                const lastname = document.getElementById(`lastname-${i}`)?.value || 'Not provided';
+                const firstname = document.getElementById(`firstname-${i}`)?.value || 'Not provided';
+                const dob = document.getElementById(`dob-${i}`)?.value || 'Not provided';
+                const pob = document.getElementById(`pob-${i}`)?.value || 'Not provided';
+                const religion = document.getElementById(`religion-${i}`)?.value || 'Not provided';
+                const sex = document.getElementById(`sex-${i}`)?.value || 'Not provided';
+                const relation = document.getElementById(`relation-${i}`)?.value || 'Not provided';
+                const passport = document.getElementById(`passport-${i}`)?.value || 'Not provided';
+                const issueDate = document.getElementById(`issue-date-${i}`)?.value || 'Not provided';
+                const expiryDate = document.getElementById(`expiry-date-${i}`)?.value || 'Not provided';
+                const placeIssue = document.getElementById(`place-issue-${i}`)?.value || 'Not provided';
+                const visaPlace = document.getElementById(`visa-place-${i}`)?.value || 'Not provided';
+                
+                printContent += `
+                    <div class="person-print" style="margin-bottom: 40px; border: 1px solid #000; padding: 20px;">
+                        <h2 style="border-bottom: 2px solid #333; padding-bottom: 10px;">Person ${i}</h2>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr><td style="width: 30%;"><strong>Nationality:</strong></td><td>${nationality}</td></tr>
+                            <tr><td><strong>Last Name:</strong></td><td>${lastname}</td></tr>
+                            <tr><td><strong>First Name:</strong></td><td>${firstname}</td></tr>
+                            <tr><td><strong>Date of Birth:</strong></td><td>${dob}</td></tr>
+                            <tr><td><strong>Place of Birth:</strong></td><td>${pob}</td></tr>
+                            <tr><td><strong>Religion:</strong></td><td>${religion}</td></tr>
+                            <tr><td><strong>Sex:</strong></td><td>${sex}</td></tr>
+                            <tr><td><strong>Relation:</strong></td><td>${relation}</td></tr>
+                            <tr><td><strong>Passport No:</strong></td><td>${passport}</td></tr>
+                            <tr><td><strong>Issue Date:</strong></td><td>${issueDate}</td></tr>
+                            <tr><td><strong>Expiry Date:</strong></td><td>${expiryDate}</td></tr>
+                            <tr><td><strong>Place of Issue:</strong></td><td>${placeIssue}</td></tr>
+                            <tr><td><strong>Visa Stamping Place:</strong></td><td>${visaPlace}</td></tr>
+                        </table>
+                    </div>
+                `;
+            }
+            
+            printSection.innerHTML = printContent;
+            
+            // Trigger print - ONLY the print-section will be visible
+            window.print();
+        }
+        
+        function clearAll() {
+            if (confirm("Are you sure you want to clear all information?")) {
+                const formsContainer = document.getElementById('forms-container');
+                formsContainer.innerHTML = '';
+                personCount = 0;
+                addPerson(); // Add first person back
+                
+                // Also clear the print section
+                document.getElementById('print-section').innerHTML = '';
+            }
+        }
     </script>
 </body>
 </html>
